@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 interface BlogCardProps {
   id: number;
@@ -18,7 +19,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   date,
 }: BlogCardProps) => {
   return (
-    <div>
+    <Link href={`/blog/${id}`} passHref>
       <Card className="overflow-hidden bg-[#0E397B] border-[#D7BC61] border h-[350px] flex flex-col">
         <Image
           src={image}
@@ -33,7 +34,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
           <p className="text-gray-100 line-clamp-2">{excerpt}</p>
         </CardContent>
       </Card>
-    </div>
+    </Link>
   );
 };
 
