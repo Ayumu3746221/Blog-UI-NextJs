@@ -17,8 +17,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ayumu log",
-  description: "Tech blog for ayumu",
+  title: "Code Infinite",
+  description:
+    "Always Learning, Always Coding. A Tech Blog on Next.js & Spring Boot",
 };
 
 export default function RootLayout({
