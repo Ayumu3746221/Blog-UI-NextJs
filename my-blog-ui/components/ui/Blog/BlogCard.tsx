@@ -19,7 +19,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
   date,
 }: BlogCardProps) => {
   return (
-    <Link href={`/blog/${id}`} passHref>
+    <Link href={`/content/${id}`} passHref>
       <Card className="overflow-hidden bg-[#0E397B] border-[#D7BC61] border h-[350px] flex flex-col">
         <Image
           src={image}
