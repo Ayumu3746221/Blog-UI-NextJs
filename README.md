@@ -15,3 +15,11 @@
 createting BlogContent.tsx
 fix blog name
 if user click blog title, redirect to homepage
+
+2024/11/17
+
+- [x] install Auth.js
+- [x] create login function
+- [x] refactoring
+
+アクセストークンを HttpOnly のものを使うこと
