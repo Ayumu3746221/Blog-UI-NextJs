@@ -1,4 +1,4 @@
-## start project
+## project Todo
 
 [Todo List]
 2024/11/08
@@ -23,3 +23,16 @@ if user click blog title, redirect to homepage
 - [x] refactoring
 
 アクセストークンを HttpOnly のものを使うこと
+
+2024/11/19
+
+- [x] create dashboard
+- [x] refactoring
+
+create Dashboard folder
+separating Dashboard's page.tsx to some components
+
+2024/11/19
+
+- [] create EditPage
+- [] refactoring

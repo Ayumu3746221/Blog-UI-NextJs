@@ -7,13 +7,9 @@ const SignOutButton: React.FC = () => {
         "use server";
         await signOut({ redirectTo: "/" });
       }}
+      className="bg-[#D7BC61] text-[#0E1331] py-2 px-4 rounded-md hover:bg-[#D7BC61]/80 transition-colors"
     >
-      <button
-        type="submit"
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-      >
-        Logout
-      </button>
+      <button type="submit">Logout</button>
     </form>
   );
 };
