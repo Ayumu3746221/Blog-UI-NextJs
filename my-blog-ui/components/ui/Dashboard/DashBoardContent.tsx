@@ -22,7 +22,7 @@ export const DashBoardContent: React.FC<DashBoardContentProps> = ({
       </div>
       <div className="ml-4 flex-shrink-0">
         <Link
-          href={`/dashboard/edit/${id}`}
+          href={`/admin/edit/${id}`}
           className="font-medium text-[#D7BC61] hover:underline"
         >
           Edit

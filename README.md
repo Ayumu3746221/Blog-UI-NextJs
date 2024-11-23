@@ -12,9 +12,9 @@
 - [x] create content page
 - [x] refactoring
 
-createting BlogContent.tsx
-fix blog name
-if user click blog title, redirect to homepage
+- createting BlogContent.tsx
+- fix blog name
+- if user click blog title, redirect to homepage
 
 2024/11/17
 
@@ -29,10 +29,13 @@ if user click blog title, redirect to homepage
 - [x] create dashboard
 - [x] refactoring
 
-create Dashboard folder
-separating Dashboard's page.tsx to some components
+- create Dashboard folder
+- separating Dashboard's page.tsx to some components
 
 2024/11/19
 
-- [] create EditPage
-- [] refactoring
+- [x] create EditPage
+- [x] refactoring
+
+- create Edit&EditorComponent folder in components
+- sperating Editor's page.tsx to some components
