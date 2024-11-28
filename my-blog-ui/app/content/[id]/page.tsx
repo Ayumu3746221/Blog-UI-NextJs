@@ -2,12 +2,24 @@ import { remark } from "remark";
 import html from "remark-html";
 import BlogContent from "@/components/ui/Blog/BlogContent";
 
-const convertMarkdownToHtml = async (markdown: string) => {
-  const processedContent = await remark().use(html).process(markdown);
-  return processedContent.toString();
-};
-
 const BlogPost = async () => {
+  const convertMarkdownToHtml = async (markdown: string) => {
+    const processedContent = await remark().use(html).process(markdown);
+    return processedContent.toString();
+  };
+
+  const artileFetch = async () => {
+    const baseURL = process.env.NEXT_ARTICLEDATA_URL;
+    const response: Response = await fetch(`${baseURL}/test.md`);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch markdown: ${response.statusText}`);
+    }
+
+    const markdown = response.text();
+    return markdown;
+  };
+
   const posts = {
     title: "初めての投稿",
     date: "2023年6月1日",
@@ -28,7 +40,8 @@ const BlogPost = async () => {
     `,
   };
 
-  const contentHtml = await convertMarkdownToHtml(posts.content);
+  const articleData = await artileFetch();
+  const contentHtml = await convertMarkdownToHtml(articleData);
 
   return (
     <BlogContent
