@@ -18,6 +18,7 @@ const fetchArticles = async (): Promise<BlogDataProps[]> => {
 
     return articles;
   } catch (error) {
+    console.error("Error fetching articles: ", error);
     return [];
   }
 };
