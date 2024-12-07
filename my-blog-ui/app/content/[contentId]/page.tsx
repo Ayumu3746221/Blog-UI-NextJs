@@ -52,7 +52,7 @@ const convertTime = (updatedAt: string) => {
 };
 
 const BlogPost = async ({ params }: { params: { contentId: string } }) => {
-  const { contentId } = await params;
+  const { contentId } = params;
 
   const { title, imageUrl, contentUrl, updatedAt }: serverSdideProps =
     await artileDataFetch(parseInt(contentId, 10));
