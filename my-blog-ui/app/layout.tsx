@@ -35,8 +35,8 @@ export default function RootLayout({
         <div className="min-h-screen bg-[#0E1331] text-gray-100 dark">
           <Header />
           {children}
-          <Footer />
         </div>
+        <Footer />
       </body>
     </html>
   );
