@@ -1,11 +1,6 @@
-import BlogList from "@/components/ui/Blog/BlogList";
+import React from "react";
+import Blog from "@/components/ui/Blog/Blog";
 
 export default function Home() {
-  return (
-    <div>
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <BlogList />
-      </main>
-    </div>
-  );
+  return <Blog />;
 }
