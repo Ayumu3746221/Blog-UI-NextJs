@@ -1,4 +1,5 @@
 import BlogContent from "@/components/ui/Blog/BlogContent";
+import React from "react";
 import { remark } from "remark";
 import html from "remark-html";
 
@@ -51,11 +52,12 @@ const convertTime = (updatedAt: string) => {
   return `${year}/${month}/${day}`;
 };
 
-const BlogPost = async ({ params }: { params: { contentId: string } }) => {
-  const { contentId } = params;
+const BlogPost = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const id = (await params).id;
+  const contentId = parseInt(id, 10);
 
   const { title, imageUrl, contentUrl, updatedAt }: serverSdideProps =
-    await artileDataFetch(parseInt(contentId, 10));
+    await artileDataFetch(contentId);
 
   const articleContent: string = await articleContentFetch(contentUrl);
   const articleHtml: string = await convertMarkdownToHtml(articleContent);
