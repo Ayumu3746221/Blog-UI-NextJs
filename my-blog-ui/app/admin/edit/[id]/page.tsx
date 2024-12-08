@@ -1,6 +1,5 @@
 import EditArticle from "@/components/ui/Edit/EditArticle";
 import React from "react";
-import { articleContentFetch } from "@/app/content/[id]/page";
 
 interface apiSideProps {
   title: string;
@@ -16,6 +15,19 @@ export interface articleData {
   content: string;
   updatedAt: string;
 }
+
+const articleContentFetch = async (contentUrl: string) => {
+  const response: Response = await fetch(contentUrl);
+
+  if (!response.ok) {
+    throw new Error(
+      `Error fetching data for Pass service ${response.statusText}`
+    );
+  }
+
+  const articleContent: string = await response.text();
+  return articleContent;
+};
 
 const fetchArticle = async (contentId: number): Promise<articleData> => {
   "use server";

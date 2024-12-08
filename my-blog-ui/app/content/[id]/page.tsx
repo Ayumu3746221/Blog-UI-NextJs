@@ -26,7 +26,7 @@ const artileDataFetch = async (id: number) => {
   return articleData;
 };
 
-export const articleContentFetch = async (contentUrl: string) => {
+const articleContentFetch = async (contentUrl: string) => {
   const response: Response = await fetch(contentUrl);
 
   if (!response.ok) {
