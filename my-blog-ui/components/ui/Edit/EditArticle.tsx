@@ -4,17 +4,23 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { articleData } from "@/app/admin/edit/[articleId]/page";
+import { articleData } from "@/app/admin/edit/[id]/page";
 import Editor from "./EditComponent/ContentEditor";
 import TitleEditor from "./EditComponent/TitleEditor";
 import ImageEditor from "./EditComponent/ImageEditor";
 
-const EditArticle = ({ articleId, title, image, content }: articleData) => {
+const EditArticle = ({
+  contentId,
+  title,
+  imageUrl,
+  content,
+  updatedAt,
+}: articleData) => {
   const router = useRouter();
 
   const [article, setArticle] = useState({
     title: title,
-    image: image,
+    imageUrl: imageUrl,
     content: content,
   });
 
@@ -51,12 +57,22 @@ const EditArticle = ({ articleId, title, image, content }: articleData) => {
   return (
     <div
       className="min-h-screen bg-[#0E1331] text-gray-100 p-6"
-      key={articleId}
+      key={contentId}
     >
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-[#A0C8F0] mb-6">Edit Article</h1>
+        <div className="flex flex-auto justify-between items-center">
+          <h1 className="text-3xl font-bold text-[#A0C8F0] mb-6">
+            Edit Article
+          </h1>
+          <p className="text-xs text-gray-400">
+            Updated:{new Date(updatedAt).toLocaleString("ja-US")}
+          </p>
+        </div>
         <TitleEditor title={title} handleTitleChange={handleTitleChange} />
-        <ImageEditor image={image} handleImageChange={handleImageChange} />
+        <ImageEditor
+          imageUrl={imageUrl}
+          handleImageChange={handleImageChange}
+        />
       </div>
 
       <Editor
