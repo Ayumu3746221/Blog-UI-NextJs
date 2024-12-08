@@ -1,26 +1,37 @@
 import React from "react";
 import { DashBoardContent } from "./DashBoardContent";
 
-const articles = [
-  { id: 1, title: "Next.js Basics", updatedAt: "2023-06-01T12:00:00Z" },
-  {
-    id: 2,
-    title: "Effective Use of React Hooks",
-    updatedAt: "2023-06-15T14:30:00Z",
-  },
-  {
-    id: 3,
-    title: "Type-Safe Coding with TypeScript",
-    updatedAt: "2023-07-01T09:45:00Z",
-  },
-];
+interface ArticleData {
+  contentId: number;
+  title: string;
+  updatedAt: string;
+  isPublished: boolean;
+}
 
-export const DashBoardList: React.FC = () => {
+const fetchAllArticles = async (): Promise<ArticleData[]> => {
+  "use server";
+
+  const baseUrl = process.env.NEXT_API_BASE_URL;
+  const response: Response = await fetch(
+    `${baseUrl}/api/auth/v1/authenticated/contents`
+  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch articles ${response.status}`);
+  }
+
+  const ArticleDataList: ArticleData[] = await response.json();
+  return ArticleDataList;
+};
+
+export const DashBoardList: React.FC = async () => {
+  const articleDataList: ArticleData[] = await fetchAllArticles();
+
   return (
     <>
       <ul className="divide-y divide-gray-700">
-        {articles.map((article) => (
-          <li key={article.id}>
+        {articleDataList.map((article) => (
+          <li key={article.contentId}>
             <DashBoardContent {...article} />
           </li>
         ))}

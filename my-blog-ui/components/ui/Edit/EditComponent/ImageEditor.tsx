@@ -5,11 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 interface ImageEditorProps {
-  image: string;
+  imageUrl: string;
   handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const ImageEditor = ({ image, handleImageChange }: ImageEditorProps) => {
+const ImageEditor = ({ imageUrl, handleImageChange }: ImageEditorProps) => {
   return (
     <div className="mb-6">
       <Label
@@ -20,7 +20,7 @@ const ImageEditor = ({ image, handleImageChange }: ImageEditorProps) => {
       </Label>
       <div className="flex flex-col items-center space-y-4">
         <Image
-          src={image || "/sample.svg?height=400&width=800"}
+          src={imageUrl || "/sample.svg?height=400&width=800"}
           alt="Featured image"
           width={800}
           height={400}
