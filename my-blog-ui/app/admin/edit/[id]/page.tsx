@@ -3,6 +3,7 @@ import React from "react";
 
 interface apiSideProps {
   title: string;
+  excerpt: string;
   imageUrl: string;
   contentUrl: string;
   updatedAt: string;
@@ -11,9 +12,17 @@ interface apiSideProps {
 export interface articleData {
   contentId: number;
   title: string;
+  excerpt: string;
   imageUrl: string;
   content: string;
   updatedAt: string;
+}
+export interface updateArticleData {
+  contentId: number;
+  title: string;
+  excerpt: string;
+  imageUrl: string;
+  content: string;
 }
 
 const articleContentFetch = async (contentUrl: string) => {
@@ -46,10 +55,40 @@ const fetchArticle = async (contentId: number): Promise<articleData> => {
   return {
     contentId: contentId,
     title: responseData.title,
+    excerpt: responseData.excerpt,
     imageUrl: responseData.imageUrl,
     content: content,
     updatedAt: responseData.updatedAt,
   };
+};
+
+const requestUpdateArticle = async ({
+  contentId,
+  title,
+  excerpt,
+  imageUrl,
+  content,
+}: updateArticleData) => {
+  "use server";
+
+  const baseUrl = process.env.NEXT_API_BASE_URL;
+
+  await fetch(`${baseUrl}/api/auth/v1/authenticated/update/content`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      contentId: contentId,
+      title: title,
+      excerpt: excerpt,
+      imageUrl: imageUrl,
+      content: content,
+      isPublished: true,
+    }),
+  }).catch((error) => {
+    console.error("Update failed:", error);
+  });
 };
 
 async function EditPage({ params }: { params: Promise<{ id: string }> }) {
@@ -57,7 +96,14 @@ async function EditPage({ params }: { params: Promise<{ id: string }> }) {
   const contentId = parseInt(id, 10);
   const articleData: articleData = await fetchArticle(contentId);
 
-  return <EditArticle {...articleData} />;
+  return (
+    <div className="max-w-fit-content mx-auto">
+      <EditArticle
+        article={articleData}
+        requestUpdateArticle={requestUpdateArticle}
+      />
+    </div>
+  );
 }
 
 export default EditPage;
