@@ -4,28 +4,33 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { articleData } from "@/app/admin/edit/[id]/page";
+import { articleData, updateArticleData } from "@/app/admin/edit/[id]/page";
 import Editor from "./EditComponent/ContentEditor";
 import TitleEditor from "./EditComponent/TitleEditor";
 import ImageEditor from "./EditComponent/ImageEditor";
+import { ExcerptEditor } from "./EditComponent/ExcerptEditor";
 
-const EditArticle = ({
-  contentId,
-  title,
-  imageUrl,
-  content,
-  updatedAt,
-}: articleData) => {
+interface EditArticleProps {
+  article: articleData;
+  requestUpdateArticle: (article: updateArticleData) => void;
+}
+
+const EditArticle = ({ article, requestUpdateArticle }: EditArticleProps) => {
   const router = useRouter();
 
-  const [article, setArticle] = useState({
-    title: title,
-    imageUrl: imageUrl,
-    content: content,
+  const [articleState, setArticle] = useState({
+    title: article.title,
+    excerpt: article.excerpt,
+    imageUrl: article.imageUrl,
+    content: article.content,
   });
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setArticle((prev) => ({ ...prev, title: e.target.value }));
+  };
+
+  const handleExcerptChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setArticle((prev) => ({ ...prev, excerpt: e.target.value }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,15 +54,10 @@ const EditArticle = ({
     }
   };
 
-  const handleSave = async () => {
-    console.log("Saving:", article);
-    router.push("/admin/dashboard");
-  };
-
   return (
     <div
       className="min-h-screen bg-[#0E1331] text-gray-100 p-6"
-      key={contentId}
+      key={article.contentId}
     >
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-auto justify-between items-center">
@@ -65,24 +65,42 @@ const EditArticle = ({
             Edit Article
           </h1>
           <p className="text-xs text-gray-400">
-            Updated:{new Date(updatedAt).toLocaleString("ja-US")}
+            Updated:{new Date(article.updatedAt).toLocaleString("ja-US")}
           </p>
         </div>
-        <TitleEditor title={title} handleTitleChange={handleTitleChange} />
+        <TitleEditor
+          title={articleState.title}
+          handleTitleChange={handleTitleChange}
+        />
+        <ExcerptEditor
+          excerpt={articleState.excerpt}
+          handleExcerptChange={handleExcerptChange}
+        />
         <ImageEditor
-          imageUrl={imageUrl}
+          imageUrl={articleState.imageUrl}
           handleImageChange={handleImageChange}
         />
       </div>
 
       <Editor
-        content={article.content}
+        content={articleState.content}
         handleContentChange={handleContentChange}
       />
 
       <div className="flex justify-end">
         <Button
-          onClick={handleSave}
+          onClick={async () => {
+            const updateArticleData = {
+              contentId: article.contentId,
+              title: articleState.title,
+              excerpt: articleState.excerpt,
+              imageUrl: articleState.imageUrl,
+              content: articleState.content,
+            };
+
+            await requestUpdateArticle(updateArticleData);
+            router.push("/admin/dashboard");
+          }}
           className="bg-[#D7BC61] text-[#0E1331] hover:bg-[#D7BC61]/80"
         >
           Save
