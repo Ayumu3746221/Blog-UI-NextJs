@@ -1,7 +1,4 @@
 {
-  "build": {
-    "cache": false
-  },
   "headers": [
     {
       "source": "/(.*)",
