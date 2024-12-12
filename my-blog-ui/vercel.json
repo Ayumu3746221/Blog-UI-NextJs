@@ -1,5 +1,5 @@
 {
-  "heders": [
+  "headers": [
     {
       "source": "/(.*)",
       "headers": [
