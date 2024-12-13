@@ -8,7 +8,12 @@ const fetchArticles = async (): Promise<BlogDataProps[]> => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response = await fetch(`${baseUrl}/api/public/v1/published/articles`);
+    const response = await fetch(
+      `${baseUrl}/api/public/v1/published/articles`,
+      {
+        next: { revalidate: 60 },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch API: ${response.statusText}`);

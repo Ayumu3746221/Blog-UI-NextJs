@@ -13,7 +13,10 @@ const fetchAllArticles = async (): Promise<ArticleData[]> => {
 
   const baseUrl = process.env.NEXT_API_BASE_URL;
   const response: Response = await fetch(
-    `${baseUrl}/api/auth/v1/authenticated/contents`
+    `${baseUrl}/api/auth/v1/authenticated/contents`,
+    {
+      next: { revalidate: 60 },
+    }
   );
 
   if (!response.ok) {
