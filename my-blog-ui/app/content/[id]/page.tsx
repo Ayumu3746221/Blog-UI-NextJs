@@ -13,7 +13,8 @@ interface serverSdideProps {
 const artileDataFetch = async (id: number) => {
   const baseURL = process.env.NEXT_API_BASE_URL;
   const response: Response = await fetch(
-    `${baseURL}/api/public/v1/articles/${id}`
+    `${baseURL}/api/public/v1/articles/${id}`,
+    { next: { revalidate: 60 } }
   );
 
   if (!response.ok) {
