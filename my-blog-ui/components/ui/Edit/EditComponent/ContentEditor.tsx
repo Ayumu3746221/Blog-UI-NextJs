@@ -15,7 +15,7 @@ const MDEditor = dynamic(
 const Editor = ({ content, handleContentChange }: ContentEditorProps) => {
   return (
     <>
-      <div className="mb-6 sticky top-0 z-10 bg-[#0E1331] pt-4">
+      <div className="mb-6 sticky top-0 z-10 bg-[#0E1331] pt-4 max-w-4xl mx-auto">
         <Label
           htmlFor="content"
           className="block text-sm font-medium text-[#D7BC61] mb-2"
@@ -24,13 +24,26 @@ const Editor = ({ content, handleContentChange }: ContentEditorProps) => {
         </Label>
       </div>
 
-      <div className="mb-6 bg-[#1E293B] p-4 rounded-md">
+      <div className="bg-[#1E293B] rounded-md overflow-hidden w-full max-w-4xl mx-auto">
         <MDEditor
           value={content}
           onChange={handleContentChange}
           preview="edit"
-          height={400}
-          className="bg-[#1E293B]"
+          height={500}
+          visibleDragbar={false}
+          className="bg-[#1E293B] text-gray-100"
+          previewOptions={{
+            style: {
+              backgroundColor: "#1E293B",
+              color: "#ffffff",
+            },
+          }}
+          textareaProps={{
+            style: {
+              backgroundColor: "#0E397B",
+              color: "#ffffff",
+            },
+          }}
         />
       </div>
     </>

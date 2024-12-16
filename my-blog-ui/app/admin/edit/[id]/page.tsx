@@ -26,9 +26,12 @@ export interface updateArticleData {
 }
 
 const articleContentFetch = async (contentUrl: string) => {
-  const response: Response = await fetch(contentUrl);
+  const response: Response = await fetch(contentUrl, {
+    next: { revalidate: 60 },
+  });
 
   if (!response.ok) {
+    console.error(`Error fetching data,using path service ${contentUrl}`);
     throw new Error(
       `Error fetching data for Pass service ${response.statusText}`
     );
@@ -43,7 +46,8 @@ const fetchArticle = async (contentId: number): Promise<articleData> => {
 
   const baseUrl = process.env.NEXT_API_BASE_URL;
   const response: Response = await fetch(
-    `${baseUrl}/api/public/v1/articles/${contentId}`
+    `${baseUrl}/api/public/v1/articles/${contentId}`,
+    { next: { revalidate: 60 } }
   );
 
   if (!response.ok) {
@@ -73,22 +77,35 @@ const requestUpdateArticle = async ({
 
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
-  await fetch(`${baseUrl}/api/auth/v1/authenticated/update/content`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      contentId: contentId,
-      title: title,
-      excerpt: excerpt,
-      imageUrl: imageUrl,
-      content: content,
-      isPublished: true,
-    }),
-  }).catch((error) => {
+  try {
+    const response: Response = await fetch(
+      `${baseUrl}/api/auth/v1/authenticated/update/content`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contentId: contentId,
+          title: title,
+          excerpt: excerpt,
+          imageUrl: imageUrl,
+          content: content,
+          isPublished: true,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        `Failed to update article: ${response.status} ${response.statusText} - ${errorText}`
+      );
+      throw new Error(`Failed to update article: ${response.status}`);
+    }
+  } catch (error) {
     console.error("Update failed:", error);
-  });
+  }
 };
 
 async function EditPage({ params }: { params: Promise<{ id: string }> }) {

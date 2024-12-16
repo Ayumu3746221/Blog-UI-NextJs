@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import DeleteButton from "./DeleteButton";
 
 interface DashBoardContentProps {
   contentId: number;
@@ -14,6 +15,33 @@ export const DashBoardContent: React.FC<DashBoardContentProps> = ({
   updatedAt,
   isPublished,
 }) => {
+  const requestArticleDelete = async (contentId: number) => {
+    "use server";
+
+    const baseUrl = process.env.NEXT_API_BASE_URL;
+
+    try {
+      const response: Response = await fetch(
+        `${baseUrl}/api/auth/v1/authenticated/delete/${contentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to delete article: ${response.status} ${response.statusText} - ${errorText}`
+        );
+      }
+    } catch (error) {
+      console.error("Delete failed:", error);
+    }
+  };
+
   return (
     <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
       <div className="flex items-center">
@@ -33,10 +61,14 @@ export const DashBoardContent: React.FC<DashBoardContentProps> = ({
           </span>
         )}
       </div>
-      <div className="ml-4 flex-shrink-0">
+      <div className="ml-4 flex items-center flex-shrink-0">
+        <DeleteButton
+          contentId={contentId}
+          requestArticleDelete={requestArticleDelete}
+        />
         <Link
           href={`/admin/edit/${contentId}`}
-          className="font-medium text-[#D7BC61] hover:underline"
+          className="font-medium text-[#D7BC61] hover:underline px-2"
         >
           Edit
         </Link>
