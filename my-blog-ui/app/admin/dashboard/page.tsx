@@ -16,7 +16,7 @@ function Dashboard() {
             </Button>
           </Link>
         </div>
-        <div className="bg-[#0E397B] shadow overflow-hidden sm:rounded-md mb-6">
+        <div className="bg-[#0E397B] shadow sm:rounded-md mb-6 overflow-auto">
           <DashBoardList />
         </div>
         <div className="flex justify-end">
