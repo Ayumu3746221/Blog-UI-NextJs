@@ -42,11 +42,15 @@ export const DashBoardContent: React.FC<DashBoardContentProps> = ({
     }
   };
 
+  const truncatedTitle = title.length > 10 ? `${title.slice(0, 12)}...` : title;
+
   return (
     <div className="px-4 py-4 sm:px-6 flex items-center justify-between">
       <div className="flex items-center">
         <div className="flex-1 min-w-0 px-4">
-          <p className="text-sm font-medium text-[#A0C8F0] truncate">{title}</p>
+          <p className="text-sm font-medium text-[#A0C8F0] truncate">
+            {truncatedTitle}
+          </p>
           <p className="mt-1 text-xs text-gray-400">
             Updated: {new Date(updatedAt).toLocaleString("ja-US")}
           </p>

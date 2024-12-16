@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Button } from "../button";
 
 interface DeleteButtonProps {
   contentId: number;
@@ -12,14 +13,14 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
   requestArticleDelete,
 }: DeleteButtonProps) => {
   return (
-    <p
+    <Button
       onClick={() => {
         requestArticleDelete(contentId);
       }}
-      className="text-red-600 hover:text-red-500 px-2 hover:underline-offset-0"
+      className="bg-red-500 hover:bg-red-700 px-4 mx-2 text-gray-100"
     >
       Delete
-    </p>
+    </Button>
   );
 };
 
