@@ -1,5 +1,4 @@
 import EditNewArticle from "@/components/ui/Edit/EditNewArticle";
-import { error } from "console";
 import React from "react";
 
 export interface newArticleData {
