@@ -1,4 +1,3 @@
-import DeleteButton from "@/components/ui/liblary/DeleteButton";
 import FotosList from "@/components/ui/liblary/FotosList";
 import { UploadButton } from "@/components/ui/liblary/UploadButton";
 import React from "react";

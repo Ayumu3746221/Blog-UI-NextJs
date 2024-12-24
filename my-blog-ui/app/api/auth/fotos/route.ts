@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { FotosList, Foto } from "@/types/fotosList";
+import { FotosList } from "@/types/fotosList";
 
 export async function GET() {
   try {
@@ -14,6 +14,7 @@ export async function GET() {
 
     return NextResponse.json(images);
   } catch (error) {
+    console.log("Fetching error for API route", error);
     return NextResponse.json(
       { error: "画像の取得に失敗しました" },
       { status: 500 }
@@ -37,6 +38,7 @@ export async function POST(request: Request) {
       image_url: image.image_url,
     });
   } catch (error) {
+    console.log("Posting error for API route", error);
     return NextResponse.json(
       { error: "画像の登録に失敗しました" },
       { status: 500 }
@@ -56,6 +58,7 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ message: "画像を削除しました" });
   } catch (error) {
+    console.log("Deleting error for API route", error);
     return NextResponse.json(
       { error: "画像の削除に失敗しました" },
       { status: 500 }
