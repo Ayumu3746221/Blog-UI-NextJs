@@ -33,19 +33,8 @@ const EditArticle = ({ article, requestUpdateArticle }: EditArticleProps) => {
     setArticle((prev) => ({ ...prev, excerpt: e.target.value }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target) {
-          setArticle((prev) => ({
-            ...prev,
-            image: event.target?.result as string,
-          }));
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
+  const handleImageChange = (imageUrl: string) => {
+    setArticle((prev) => ({ ...prev, imageUrl: imageUrl }));
   };
 
   const handleContentChange = (value: string | undefined) => {
