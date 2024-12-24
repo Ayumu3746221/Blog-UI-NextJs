@@ -1,12 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import FotoSelector from "../../liblary/FotoSelector";
 
 interface ImageEditorProps {
   imageUrl: string;
-  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleImageChange: (imageUrl: string) => void;
 }
 
 const ImageEditor = ({ imageUrl, handleImageChange }: ImageEditorProps) => {
@@ -27,16 +32,16 @@ const ImageEditor = ({ imageUrl, handleImageChange }: ImageEditorProps) => {
           className="object-cover w-full h-64"
         />
         <div className="relative">
-          <Input
-            type="file"
-            id="image"
-            onChange={handleImageChange}
-            accept="image/*"
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          />
-          <Button className="bg-[#0E397B] text-[#D7BC61] hover:bg-[#0E397B]/80 border border-[#D7BC61]">
-            Choose File
-          </Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button className="w-full">Change Image</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div>
+                <FotoSelector handleImageChange={handleImageChange} />
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>

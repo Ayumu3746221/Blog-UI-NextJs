@@ -18,7 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   pages: {
-    signIn: "/admin/login",
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",
@@ -26,11 +26,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn({ profile }) {
       if (!profile) {
-        return "/admin/login?error=PrifileNotFound";
+        return "/login?error=PrifileNotFound";
       }
 
       if (profile?.email !== process.env.NEXT_ALLOW_EMAIL) {
-        return "/admin/login?error=NotAuthorizedAccess";
+        return "/login?error=NotAuthorizedAccess";
       }
 
       return true;
@@ -110,7 +110,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         const { pathname } = url;
 
-        if (pathname.startsWith("/admin/dashboard")) {
+        if (pathname.startsWith("/admin")) {
           return Boolean(auth);
         }
 

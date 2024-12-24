@@ -1,2 +1,16 @@
 *.DS_Store
 *.env
+.vscode
+SQL
+
+# Prisma関連
+.env
+node_modules
+generated
+*.db
+*.db-journal
+
+# 以下は自動生成されるファイルなので除外
+prisma/*.db
+prisma/*.db-journal
+prisma/generated/
