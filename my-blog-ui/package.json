@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "debug": "NODE_OPTIONS='--inspect' next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy -instances=$INST_CONN_NAME=tcp:5432 & next build",
+    "start": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy -instances=$INST_CONN_NAME=tcp:5432 & next start",
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
