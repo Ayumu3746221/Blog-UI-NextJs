@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { ScrollArea } from "../scroll-area";
 import { FotosList } from "@/types/fotosList";
 import { title } from "process";
@@ -24,7 +25,7 @@ const FotoSelector = ({ handleImageChange }: FotoSelectorProps) => {
 
   useEffect(() => {
     fetchFotos();
-  }, []);
+  }, [fetchFotos]);
 
   return (
     <div>
@@ -38,7 +39,7 @@ const FotoSelector = ({ handleImageChange }: FotoSelectorProps) => {
                 handleImageChange(foto.image_url || "/sample.svg?height=400");
               }}
             >
-              <img
+              <Image
                 src={foto.image_url || "/sample.svg?height=400"}
                 alt={foto.title || "Foto fetching google"}
                 className="w-20 h-20 object-cover rounded-lg"

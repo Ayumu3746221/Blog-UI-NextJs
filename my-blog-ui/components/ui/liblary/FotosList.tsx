@@ -29,7 +29,7 @@ const FotosList = () => {
 
   useEffect(() => {
     fetchFotos();
-  }, []);
+  }, [fetchFotos]);
 
   return (
     <div className="container mx-auto px-4 py-8 bg-gray-700 rounded-lg shadow-lg">
