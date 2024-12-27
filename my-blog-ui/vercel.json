@@ -1,20 +1,13 @@
 {
-  "builds": [
+  "headers": [
     {
-      "src": "package.json",
-      "use": "@vercel/next",
-      "config": {
-        "env": {
-          "GOOGLE_APPLICATION_CREDENTIALS": "/tmp/service-account.json",
-          "INSTANCE_CONNECTION_NAME": "$INST_CONN_NAME"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, s-maxage=60, stale-while-revalidate=59"
         }
-      }
+      ]
     }
-  ],
-  "images": {
-    "cloud-sql-proxy": {
-      "ports": [5432],
-      "entrypoint": ["/cloud_sql_proxy", "-instances=$INST_CONN_NAME=tcp:5432"]
-    }
-  }
+  ]
 }
