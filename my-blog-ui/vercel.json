@@ -19,8 +19,8 @@
   },
   "deployHooks": {
     "beforeBuild": [
-      "gcloud auth activate-service-account --key-file=/tmp/gcloud-auth.json",
-      "gcloud secrets versions access latest --secret=cloud-sql-service-account-key --project=$PROJECT_ID > /tmp/service-account.json"
+      "npm install @google-cloud/secret-manager",
+      "node -e 'require(\"@google-cloud/secret-manager\").v1.SecretManagerServiceClient().accessSecretVersion({ name: \"projects/$PROJECT_ID/secrets/cloud-sql-service-account-key/versions/latest\" }).then(res => { require(\"fs\").writeFileSync(\"/tmp/service-account.json\", res.payload.data.toString()); }).catch(console.error);'"
     ]
   }
 }
