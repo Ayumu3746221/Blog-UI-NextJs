@@ -8,7 +8,8 @@
     "build": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy $INST_CONN_NAME & next build",
     "start": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy $INST_CONN_NAME & next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "migrate": "npx prisma migrate deploy"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",
