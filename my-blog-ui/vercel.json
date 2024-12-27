@@ -16,11 +16,5 @@
       "ports": [5432],
       "entrypoint": ["/cloud_sql_proxy", "-instances=$INST_CONN_NAME=tcp:5432"]
     }
-  },
-  "deployHooks": {
-    "beforeBuild": [
-      "npm install @google-cloud/secret-manager",
-      "node -e 'require(\"@google-cloud/secret-manager\").v1.SecretManagerServiceClient().accessSecretVersion({ name: \"projects/$PROJECT_ID/secrets/cloud-sql-service-account-key/versions/latest\" }).then(res => { require(\"fs\").writeFileSync(\"/tmp/service-account.json\", res.payload.data.toString()); }).catch(console.error);'"
-    ]
   }
 }
