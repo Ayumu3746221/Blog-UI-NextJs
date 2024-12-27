@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "debug": "NODE_OPTIONS='--inspect' next dev",
-    "build": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy $INST_CONN_NAME & next build",
-    "start": "curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 && chmod +x cloud_sql_proxy && ./cloud_sql_proxy $INST_CONN_NAME & next start",
+    "build": "next build && npx prisma migrate deploy",
+    "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "migrate": "npx prisma migrate deploy"
