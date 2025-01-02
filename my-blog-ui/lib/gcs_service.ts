@@ -1,43 +1,72 @@
-import { Storage } from "@google-cloud/storage";
+export const handleUploadToStorage = async (file: File, objectName: string) => {
+  const baseUrl = process.env.NEXT_API_BASE_URL;
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const storage = new Storage();
-const bucketName = process.env.NEXT_GCS_BUCKET_NAME;
+  try {
+    if (file.size > MAX_FILE_SIZE) {
+      throw new Error(
+        `ファイルサイズが制限を超えています(上限:" ${MAX_FILE_SIZE / 1024 / 1024} MB`
+      );
+    }
 
-export async function uploadFile(file: File, folderName: string = "images/") {
-  if (!bucketName) {
-    throw new Error("GCS設定が見つかりません");
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("objectName", objectName);
+
+    const response = await fetch(
+      `${baseUrl}/api/auth/v1/authencated/upload/gcs/image`,
+      {
+        method: "POST",
+        headers: {
+          contentType: "multipart/form-data",
+        },
+        body: formData,
+      }
+    );
+
+    const responseText = await response.text();
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        "ファイルアップロードの際にGCSデータの登録に失敗しました",
+        errorData
+      );
+    }
+
+    const data = responseText ? JSON.parse(responseText) : null;
+    return data.contentUrl;
+  } catch (error) {
+    console.error("function error:", error);
+    throw error;
   }
-  const bucket = storage.bucket(bucketName);
-  const fileName = `${folderName}${file.name}`;
-  const blob = bucket.file(fileName);
-  const blobStream = blob.createWriteStream({
-    metadata: {
-      contentType: file.type || "application/octet-stream",
-      contentLength: file.size,
-    },
-  });
+};
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  return new Promise((resolve, rejects) => {
-    blobStream.on("error", (error) => {
-      rejects(error);
-    });
+export const handleDeleteForStorage = async (objectName: string) => {
+  const baseUrl = process.env.NEXT_API_BASE_URL;
 
-    blobStream.on("finish", () => {
-      resolve(`https://storage.googleapis.com/${bucketName}/${fileName}`);
-    });
-    blobStream.end(buffer);
-  });
-}
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/auth/v1/authencated/delete/gcs/image`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          objectName: objectName,
+        }),
+      }
+    );
 
-export async function deleteFile(
-  fileName: string,
-  folderName: string = "images/"
-) {
-  if (!bucketName) {
-    throw new Error("GCS設定が見つかりません");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        "ファイル削除の際にGCSデータの削除に失敗しました",
+        errorData
+      );
+    }
+  } catch (error) {
+    console.error("削除エラー:", error);
+    throw error;
   }
-  const bucket = storage.bucket(bucketName);
-  const blob = bucket.file(`${folderName}${fileName}`);
-  return blob.delete();
-}
+};

@@ -33,7 +33,7 @@ const ImageEditor = ({ imageUrl, handleImageChange }: ImageEditorProps) => {
         />
         <div className="relative">
           <Popover>
-            <PopoverTrigger>
+            <PopoverTrigger asChild>
               <Button className="w-full">Change Image</Button>
             </PopoverTrigger>
             <PopoverContent>
