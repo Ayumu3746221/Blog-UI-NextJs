@@ -12,9 +12,9 @@ export function UploadButton() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const allowedTypes = ["image/svg+xml", "image/jpeg", "image/png"];
+    const allowedTypes = ["image/jpeg", "image/png"];
     if (!allowedTypes.includes(file.type)) {
-      alert("SVG、JPG、PNG形式のファイルのみアップロード可能です。");
+      alert("JPG、PNG形式のファイルのみアップロード可能です。");
       return;
     }
 
@@ -22,28 +22,21 @@ export function UploadButton() {
       setIsUploading(true);
 
       const formData = new FormData();
+      formData.append("userId", "1");
       formData.append("file", file);
+      formData.append("objectName", file.name);
 
-      const responseGCS = await fetch("/api/auth/gcs_service", {
+      const response = await fetch("/api/auth/fotos", {
         method: "POST",
         body: formData,
       });
 
-      if (!responseGCS.ok) {
-        throw new Error("Error uploading to GCS");
-      }
-
-      const responseDB = await fetch("/api/auth/fotos", {
-        method: "POST",
-        body: JSON.stringify({
-          user_id: 1,
-          title: file.name,
-          image_url: (await responseGCS.json()).url,
-        }),
-      });
-
-      if (!responseDB.ok) {
-        throw new Error("Error uploading to DB");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          "ファイルアップロードの際にデータの登録に失敗しました",
+          errorData
+        );
       }
 
       alert("ファイルのアップロードに成功しました");

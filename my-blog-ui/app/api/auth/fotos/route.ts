@@ -1,18 +1,23 @@
-import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { FotosList } from "@/types/fotosList";
+import {
+  handleDeleteForStorage,
+  handleUploadToStorage,
+} from "@/lib/gcs_service";
+import {
+  handleDeleteForDatabase,
+  handlePostToDatabase,
+} from "@/lib/database_service";
 
 export async function GET() {
   try {
-    const images: FotosList = await prisma.images.findMany({
-      select: {
-        id: true,
-        title: true,
-        image_url: true,
-      },
-    });
+    const baseUrl = process.env.NEXT_API_BASE_URL;
+    const response = await fetch(
+      `${baseUrl}/api/auth/v1/authencated/get/images`
+    );
+    const data: FotosList = await response.json();
 
-    return NextResponse.json(images);
+    return NextResponse.json(data);
   } catch (error) {
     console.log("Fetching error for API route", error);
     return NextResponse.json(
@@ -24,19 +29,15 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { user_id, title, image_url } = await request.json();
+    const formData = await request.formData();
+    const userId = formData.get("userId") as string;
+    const file = formData.get("file") as File;
+    const objectName = formData.get("objectName") as string;
 
-    const image = await prisma.images.create({
-      data: {
-        user_id,
-        title,
-        image_url,
-      },
-    });
-    return NextResponse.json({
-      title: image.title,
-      image_url: image.image_url,
-    });
+    const imageUrl = await handleUploadToStorage(file, objectName);
+    await handlePostToDatabase(Number(userId), objectName, imageUrl);
+
+    return NextResponse.json({ message: "画像を登録しました" });
   } catch (error) {
     console.log("Posting error for API route", error);
     return NextResponse.json(
@@ -48,13 +49,9 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const { id } = await request.json();
-
-    await prisma.images.delete({
-      where: {
-        id: id,
-      },
-    });
+    const { id, objectName } = await request.json();
+    await handleDeleteForDatabase(id);
+    await handleDeleteForStorage(objectName);
 
     return NextResponse.json({ message: "画像を削除しました" });
   } catch (error) {

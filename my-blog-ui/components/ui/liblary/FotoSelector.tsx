@@ -36,15 +36,17 @@ const FotoSelector = ({ handleImageChange }: FotoSelectorProps) => {
               key={foto.id}
               className="px-2 py-1 hover:bg-blue-800 flex items-center justify-between"
               onClick={() => {
-                handleImageChange(foto.image_url || "/sample.svg?height=400");
+                handleImageChange(foto.imageUrl || "/sample.svg?height=400");
               }}
             >
               <Image
-                src={foto.image_url || "/sample.svg?height=400"}
+                src={foto.imageUrl || "/sample.svg?height=400"}
                 alt={foto.title || "Foto fetching google"}
+                width={80}
+                height={80}
                 className="w-20 h-20 object-cover rounded-lg"
               />
-              <p className="ml-4 flex-1 text-center">{title}</p>
+              <p className="ml-4 flex-1 text-center">{foto.title}</p>
             </li>
           ))}
         </ul>
