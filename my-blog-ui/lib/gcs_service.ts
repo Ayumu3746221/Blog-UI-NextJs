@@ -1,8 +1,3 @@
-interface GcsSuccessResponse {
-  message: string;
-  contentUrl: string;
-}
-
 export const handleUploadToStorage = async (file: File, objectName: string) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -65,8 +60,10 @@ export const handleDeleteForStorage = async (objectName: string) => {
 
     if (!response.ok) {
       const errorData = await response.json();
-      // console.error("GCS削除エラーの詳細:", errorData);
-      throw new Error("ファイル削除の際にGCSデータの削除に失敗しました");
+      throw new Error(
+        "ファイル削除の際にGCSデータの削除に失敗しました",
+        errorData
+      );
     }
   } catch (error) {
     console.error("削除エラー:", error);

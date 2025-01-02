@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "../scroll-area";
 import { FotosList } from "@/types/fotosList";
-import { title } from "process";
 
 interface FotoSelectorProps {
   handleImageChange: (imageUrl: string) => void;
