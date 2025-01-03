@@ -9,7 +9,7 @@ const fetchArticles = async (): Promise<BlogDataProps[]> => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response = await fetchWithAuth(
+    const response = await fetch(
       `${baseUrl}/api/public/v1/published/articles`,
       {
         next: { revalidate: 60 },
