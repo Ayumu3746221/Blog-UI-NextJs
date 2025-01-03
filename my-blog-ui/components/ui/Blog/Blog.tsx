@@ -1,5 +1,4 @@
 import BlogList from "@/components/ui/Blog/BlogList";
-import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { BlogDataProps } from "@/types/BlogDataProps";
 import React from "react";
 
