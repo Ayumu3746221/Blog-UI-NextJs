@@ -1,3 +1,5 @@
+import { fetchWithAuth } from "./fetchWithAuth";
+
 export const handlePostToDatabase = async (
   userId: number,
   objectName: string,
@@ -5,7 +7,7 @@ export const handlePostToDatabase = async (
 ) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authencated/upload/image`,
       {
         method: "POST",
@@ -36,7 +38,7 @@ export const handlePostToDatabase = async (
 export const handleDeleteForDatabase = async (id: number) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authencated/delete/image`,
       {
         method: "DELETE",

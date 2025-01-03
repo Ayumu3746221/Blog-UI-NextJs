@@ -8,13 +8,25 @@ import {
   handleDeleteForDatabase,
   handlePostToDatabase,
 } from "@/lib/database_service";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     const baseUrl = process.env.NEXT_API_BASE_URL;
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authencated/get/images`
     );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Fetching error for API route", errorData);
+      return NextResponse.json(
+        { error: "画像の取得に失敗しました" },
+        { status: 500 }
+      );
+    }
     const data: FotosList = await response.json();
 
     return NextResponse.json(data);

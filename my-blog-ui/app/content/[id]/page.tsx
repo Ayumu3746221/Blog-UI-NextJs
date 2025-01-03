@@ -1,4 +1,5 @@
 import BlogContent from "@/components/ui/Blog/BlogContent";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import React from "react";
 import { remark } from "remark";
 import html from "remark-html";
@@ -12,7 +13,7 @@ interface serverSdideProps {
 
 const artileDataFetch = async (id: number) => {
   const baseURL = process.env.NEXT_API_BASE_URL;
-  const response: Response = await fetch(
+  const response: Response = await fetchWithAuth(
     `${baseURL}/api/public/v1/articles/${id}`,
     { next: { revalidate: 60 } }
   );

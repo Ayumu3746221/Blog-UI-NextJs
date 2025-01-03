@@ -1,5 +1,8 @@
 import EditArticle from "@/components/ui/Edit/EditArticle";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import React from "react";
+
+export const dynamic = "force-dynamic";
 
 interface apiSideProps {
   title: string;
@@ -78,7 +81,7 @@ const requestUpdateArticle = async ({
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response: Response = await fetch(
+    const response: Response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authenticated/update/content`,
       {
         method: "PUT",

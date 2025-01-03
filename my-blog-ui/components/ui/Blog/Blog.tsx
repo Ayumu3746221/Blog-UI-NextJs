@@ -1,4 +1,5 @@
 import BlogList from "@/components/ui/Blog/BlogList";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import { BlogDataProps } from "@/types/BlogDataProps";
 import React from "react";
 
@@ -8,7 +9,7 @@ const fetchArticles = async (): Promise<BlogDataProps[]> => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/public/v1/published/articles`,
       {
         next: { revalidate: 60 },

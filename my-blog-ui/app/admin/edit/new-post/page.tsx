@@ -1,4 +1,5 @@
 import EditNewArticle from "@/components/ui/Edit/EditNewArticle";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import React from "react";
 
 export interface newArticleData {
@@ -15,7 +16,7 @@ const postNewArticle = async (article: newArticleData) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response: Response = await fetch(
+    const response: Response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authenticated/create/content`,
       {
         method: "POST",
