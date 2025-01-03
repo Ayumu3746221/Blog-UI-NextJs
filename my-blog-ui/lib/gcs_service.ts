@@ -1,3 +1,5 @@
+import { fetchWithAuth } from "./fetchWithAuth";
+
 export const handleUploadToStorage = async (file: File, objectName: string) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
   const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -13,7 +15,7 @@ export const handleUploadToStorage = async (file: File, objectName: string) => {
     formData.append("file", file);
     formData.append("objectName", objectName);
 
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authencated/upload/gcs/image`,
       {
         method: "POST",
@@ -45,7 +47,7 @@ export const handleDeleteForStorage = async (objectName: string) => {
   const baseUrl = process.env.NEXT_API_BASE_URL;
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `${baseUrl}/api/auth/v1/authencated/delete/gcs/image`,
       {
         method: "DELETE",

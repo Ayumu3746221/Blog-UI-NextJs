@@ -93,6 +93,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const userEmail = token?.email;
 
       if (userEmail === process.env.NEXT_ALLOW_EMAIL) {
+        session.access_token = token.access_token;
         session.expires_at = token.expires_at;
         session.refresh_token = token.refresh_token;
       }
@@ -104,17 +105,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
     async authorized({ request, auth }) {
-      const url = request.nextUrl;
+      const { pathname } = request.nextUrl;
       const allowedEmail = process.env.NEXT_ALLOW_EMAIL;
 
       try {
-        const { pathname } = url;
-
         if (pathname.startsWith("/admin")) {
           return Boolean(auth);
         }
 
-        if (request.method === "POST") {
+        if (
+          request.method === "POST" ||
+          request.method === "PUT" ||
+          request.method === "DELETE"
+        ) {
           const userEmail = auth?.user?.email;
 
           if (userEmail !== allowedEmail) {
