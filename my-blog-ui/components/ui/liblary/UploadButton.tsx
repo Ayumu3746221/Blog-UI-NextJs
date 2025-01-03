@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 export function UploadButton() {
   const [isUploading, setIsUploading] = useState(false);
