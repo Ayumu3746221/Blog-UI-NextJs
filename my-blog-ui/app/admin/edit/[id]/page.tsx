@@ -2,6 +2,8 @@ import EditArticle from "@/components/ui/Edit/EditArticle";
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 interface apiSideProps {
   title: string;
   excerpt: string;

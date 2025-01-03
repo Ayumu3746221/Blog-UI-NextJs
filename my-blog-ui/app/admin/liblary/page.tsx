@@ -2,6 +2,8 @@ import FotosList from "@/components/ui/liblary/FotosList";
 import { UploadButton } from "@/components/ui/liblary/UploadButton";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 function Liblary() {
   return (
     <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">

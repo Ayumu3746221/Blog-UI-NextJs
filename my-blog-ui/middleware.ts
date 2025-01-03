@@ -2,6 +2,10 @@ import { auth } from "@/auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+export const config = {
+  matcher: ["/admin/:path*", "/api/auth/:path*"],
+};
+
 export default auth(async (request: NextRequest) => {
   const session = await auth();
   const { pathname } = request.nextUrl;
@@ -17,7 +21,7 @@ export default auth(async (request: NextRequest) => {
   }
 
   if (request.nextUrl.pathname.startsWith("/api/auth")) {
-    if (!session) {
+    if (!session?.access_token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -28,7 +32,3 @@ export default auth(async (request: NextRequest) => {
 
   return NextResponse.next();
 });
-
-export const config = {
-  matcher: ["/admin/:path*", "/api/auth/:path*"],
-};

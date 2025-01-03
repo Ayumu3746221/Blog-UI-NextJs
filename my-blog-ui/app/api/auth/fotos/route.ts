@@ -10,6 +10,8 @@ import {
 } from "@/lib/database_service";
 import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const baseUrl = process.env.NEXT_API_BASE_URL;
