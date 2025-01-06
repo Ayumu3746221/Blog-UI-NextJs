@@ -1,5 +1,6 @@
 import React from "react";
 import { DashBoardContent } from "./DashBoardContent";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 interface ArticleData {
   contentId: number;
@@ -12,7 +13,7 @@ const fetchAllArticles = async (): Promise<ArticleData[]> => {
   "use server";
 
   const baseUrl = process.env.NEXT_API_BASE_URL;
-  const response: Response = await fetch(
+  const response: Response = await fetchWithAuth(
     `${baseUrl}/api/auth/v1/authenticated/contents`,
     {
       next: { revalidate: 60 },
