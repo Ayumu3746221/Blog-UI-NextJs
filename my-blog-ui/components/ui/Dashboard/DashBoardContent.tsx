@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import DeleteButton from "./DeleteButton";
+import { fetchWithAuth } from "@/lib/fetchWithAuth";
 
 interface DashBoardContentProps {
   contentId: number;
@@ -21,7 +22,7 @@ export const DashBoardContent: React.FC<DashBoardContentProps> = ({
     const baseUrl = process.env.NEXT_API_BASE_URL;
 
     try {
-      const response: Response = await fetch(
+      const response: Response = await fetchWithAuth(
         `${baseUrl}/api/auth/v1/authenticated/delete/${contentId}`,
         {
           method: "DELETE",
