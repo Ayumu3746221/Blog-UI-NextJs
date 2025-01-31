@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "../scroll-area";
 import { FotosList } from "@/types/fotosList";
@@ -12,7 +12,7 @@ interface FotoSelectorProps {
 const FotoSelector = ({ handleImageChange }: FotoSelectorProps) => {
   const [fotos, setFotos] = useState<FotosList>([]);
 
-  const fetchFotos = useCallback(async () => {
+  const fetchFotos = async () => {
     try {
       const res: Response = await fetch("/api/auth/fotos");
       const data: FotosList = await res.json();
@@ -20,7 +20,7 @@ const FotoSelector = ({ handleImageChange }: FotoSelectorProps) => {
     } catch (error) {
       console.log("Fetching error for API route", error);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchFotos();

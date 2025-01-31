@@ -1,7 +1,7 @@
 "use client";
 
 import type { FotosList } from "@/types/fotosList";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import FotoCard from "./FotoCard";
 
@@ -9,7 +9,7 @@ const FotosList = () => {
   const [update, setUpdate] = useState(false);
   const [fotos, setFotos] = useState<FotosList>([]);
 
-  const fetchFotos = useCallback(async () => {
+  const fetchFotos = async () => {
     try {
       const res: Response = await fetch("/api/auth/fotos");
       const data: FotosList = await res.json();
@@ -19,13 +19,11 @@ const FotosList = () => {
     } finally {
       setUpdate(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    if (update) {
-      fetchFotos();
-    }
-  }, [update, fetchFotos]);
+    fetchFotos();
+  }, [update === true, fetchFotos]);
 
   useEffect(() => {
     fetchFotos();
