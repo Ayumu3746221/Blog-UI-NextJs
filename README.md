@@ -29,7 +29,6 @@
 **デプロイ先**
 
 - vercel
-- ランニングページ：https://my-blog-ui-bay.vercel.app
 
 **AI（LLM）**
 
